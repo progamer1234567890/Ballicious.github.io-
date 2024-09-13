@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ballicious</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFD93D;
+            --text-color: #2C3E50;
+            --background-color: #F7F9FC;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding-top: 80px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        #hero {
+            background-image: url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        #hero .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        #hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        #hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #45b7aa;
+        }
+        
+        #products {
+            padding: 5rem 0;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-description {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .add-to-cart {
+            margin-top: 1rem;
+            width: 100%;
+        }
+        
+        #target-game {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .game-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .game-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .game-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .game-rules {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+        
+        .game-rules li {
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .social-links {
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Shopping Cart Styles */
+        #cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        #cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        #cart-page {
+            display: none;
+            padding: 2rem 0;
+        }
+        
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        
+        .cart-table th,
+        .cart-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .cart-table th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .quantity {
+            margin: 0 10px;
+        }
+        
+        .remove-item {
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        #cart-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .hide {
+            display: none;
+        }
+
+        /* New styles for advanced features */
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .stars {
+            color: var(--accent-color);
+            margin-right: 5px;
+        }
+
+        .rating-count {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .newsletter {
+            background-color: var(--accent-color);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input[type="email"] {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .newsletter-form button {
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+     <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="https://via.placeholder.com/40x40.png?text=Logo" alt="Ballicious Logo">
+                Ballicious
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#target-game">Target Game</a></li>
+                <li id="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div class="hero-content">
+            <h1>Welcome to Ballicious</h1>
+            <p>Discover our delightful range of sweet ball-shaped treats!</p>
+            <a href="#products" class="btn">Shop Now</a>
+        </div>
+    </section>
+
+     <section id="products" class="container">
+        <h2>Our Delicious Products</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/400x300.png?text=Cakepop" alt="Cakepop" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Cakepop</h3>
+                    <p class="product-price">$1.00</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-count">(42 reviews)</span>
+                    </div>
+                    <p class="product-description">Delicious bite-sized cake on a stick!</p>
+                    <button class="btn add-to-cart" data-id="1" data-name="Cakepop" data-price="1.00">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/400x300.png?text=Cookie+Balls" alt="Cookie balls" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Cookie balls</h3>
+                    <p class="product-price">$2.50</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-count">(38 reviews)</span>
+                    </div>
+                    <p class="product-description">Perfectly round cookies, great for snacking!</p>
+                    <button class="btn add-to-cart" data-id="2" data-name="Cookie balls" data-price="2.50">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/400x300.png?text=Cookie+Dough+Balls" alt="Cookie dough balls" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Cookie dough balls</h3>
+                    <p class="product-price">$3.00</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-count">(55 reviews)</span>
+                    </div>
+                    <p class="product-description">Edible cookie dough in convenient ball form!</p>
+                    <button class="btn add-to-cart" data-id="3" data-name="Cookie dough balls" data-price="3.00">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/400x300.png?text=Brownie" alt="Brownie" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Brownie</h3>
+                    <p class="product-price">$2.50</p>
+                    <div class="product-rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-count">(47 reviews)</span>
+                    </div>
+                    <p class="product-description">Rich, chocolatey goodness in every bite!</p>
+                    <button class="btn add-to-cart" data-id="4" data-name="Brownie" data-price="2.50">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="target-game">
+        <div class="game-content">
+            <h2 class="game-title">Sweet Ball Target Game</h2>
+            <p class="game-description">Try your luck for just $1 and win delicious treats!</p>
+            <ul class="game-rules">
+                <li><i class="fas fa-bullseye"></i> Hit the center: Win 4 sweet balls</li>
+                <li><i class="fas fa-dot-circle"></i> Hit around the center: Win 2 sweet balls</li>
+                <li><i class="fas fa-circle"></i> Hit the middle: Win 1 sweet ball</li>
+                <li><i class="fas fa-times-circle"></i> Hit the outside: Better luck next time!</li>
+            </ul>
+            <a href="#" class="btn">Play Now</a>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p>Stay updated with our latest treats and exclusive offers!</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit" class="btn">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Page -->
+    <section id="cart-page" class="container">
+        <h2>Your Shopping Cart</h2>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically inserted here -->
+            </tbody>
+        </table>
+        <div class="cart-summary">
+            <div id="cart-total">Total: $0.00</div>
+            <button id="checkout-btn" class="btn">Proceed to Checkout</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Ballicious. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Shopping Cart functionality
+        let cart = [];
+        const cartIcon = document.getElementById('cart-icon');
+        const cartCount = document.getElementById('cart-count');
+        const cartPage = document.getElementById('cart-page');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const mainContent = document.querySelectorAll('section:not(#cart-page)');
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        function updateCartPage() {
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>
+                        <div class="quantity-control">
+                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                        </div>
+                    </td>
+                    <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                    <td><span class="remove-item" data-id="${item.id}">Remove</span></td>
+                `;
+                cartItems.appendChild(row);
+                total += item.price * item.quantity;
+            });
+
+            cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        function addToCart(id, name, price) {
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ id, name, price, quantity: 1 });
+            }
+            updateCartCount();
+            updateCartPage();
+            saveCartToLocalStorage();
+        }
+
+        function removeFromCart(id) {
+            const index = cart.findIndex(item => item.id === id);
+            if (index !== -1) {
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity--;
+                } else {
+                    cart.splice(index, 1);
+                }
+                updateCartCount();
+                updateCartPage();
+                saveCartToLocalStorage();
+            }
+        }
+
+        function saveCartToLocalStorage() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function loadCartFromLocalStorage() {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartCount();
+                updateCartPage();
+            }
+        }
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const id = parseInt(button.getAttribute('data-id'));
+                const name = button.getAttribute('data-name');
+                const price = parseFloat(button.getAttribute('data-price'));
+                addToCart(id, name, price);
+            });
+        });
+
+        cartIcon.addEventListener('click', () => {
+            cartPage.style.display = 'block';
+            mainContent.forEach(section => section.classList.add('hide'));
+        });
+
+        cartItems.addEventListener('click', (event) => {
+            if (event.target.classList.contains('quantity-btn')) {
+                const id = parseInt(event.target.getAttribute('data-id'));
+                if (event.target.classList.contains('minus')) {
+                    removeFromCart(id);
+                } else if (event.target.classList.contains('plus')) {
+                    addToCart(id, '', 0); // Name and price are not needed for existing items
+                }
+            } else if (event.target.classList.contains('remove-item')) {
+                const id = parseInt(event.target.getAttribute('data-id'));
+                cart = cart.filter(item => item.id !== id);
+                updateCartCount();
+                updateCartPage();
+                saveCartToLocalStorage();
+            }
+        });
+
+        checkoutBtn.addEventListener('click', () => {
+            alert('Thank you for your purchase!');
+            cart = [];
+            updateCartCount();
+            updateCartPage();
+            saveCartToLocalStorage();
+            cartPage.style.display = 'none';
+            mainContent.forEach(section => section.classList.remove('hide'));
+        });
+
+        // Load cart from local storage on page load
+        loadCartFromLocalStorage();
+
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('.newsletter-form');
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value;
+            alert(`Thank you for subscribing with email: ${email}`);
+            newsletterForm.reset();
+        });
+    </script>
+</body>
+</html>
